@@ -22,7 +22,5 @@ def Detect():
           "prediction": prediction
      })
 
-
-
 if __name__ == '__main__':
      app.run(debug=True, host='localhost', port=4300)
