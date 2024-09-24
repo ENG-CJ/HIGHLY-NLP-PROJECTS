@@ -7,29 +7,100 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
-        .highlight {
-          font-weight: bold;
-        }
-        
-        /* Highlight GPE (geopolitical entities) in blue */
-        .gpe {
-          background-color: lightblue;
-        }
-        
-        /* Highlight DATE in yellow */
-        .date {
-          background-color: yellow;
-        }
-        
-        /* Highlight MONEY in green */
-        .money {
-          background-color: lightgreen;
-        }
-      
-        /* Highlight ORG (organizations) in orange */
-        .org {
-          background-color: lightcoral;
-        }
+/* Animation for highlighting from left to right */
+@keyframes highlight-animation {
+  from {
+    background-size: 0% 100%;
+  }
+  to {
+    background-size: 100% 100%;
+  }
+}
+
+.highlighted-entity {
+  background-image: linear-gradient(to right, inherit 100%, transparent 0%);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  animation: highlight-animation 1.56s ease-in-out forwards; 
+  display: inline-block; 
+}
+
+
+.gpe {
+  background-image: linear-gradient(to right, lightblue 100%, transparent 0%);
+  color: navy;
+}
+
+
+.person {
+  background-image: linear-gradient(to right, blueviolet 100%, transparent 0%);
+  color: white;
+}
+
+.date {
+  background-image: linear-gradient(to right, yellow 100%, transparent 0%);
+  color: black;
+}
+
+.money {
+  background-image: linear-gradient(to right, lightgreen 100%, transparent 0%);
+  color: darkgreen;
+}
+
+
+.org {
+  background-image: linear-gradient(to right, lightcoral 100%, transparent 0%);
+  color: darkred;
+}
+
+.loc {
+  background-image: linear-gradient(to right, lightseagreen 100%, transparent 0%);
+  color: darkcyan;
+}
+
+.event {
+  background-image: linear-gradient(to right, thistle 100%, transparent 0%);
+  color: purple;
+}
+
+
+.product {
+  background-image: linear-gradient(to right, beige 100%, transparent 0%);
+  color: saddlebrown;
+}
+.work_of_art {
+  background-image: linear-gradient(to right, peachpuff 100%, transparent 0%);
+  color: peru;
+}
+
+
+.law {
+  background-image: linear-gradient(to right, lightgray 100%, transparent 0%);
+  color: darkslategray;
+}
+
+
+.language {
+  background-image: linear-gradient(to right, lightpink 100%, transparent 0%);
+  color: darkmagenta;
+}
+
+#train_data {
+  background-color: rgb(54, 48, 49);
+  color: white; /* Dark magenta for contrast */
+}
+.container{
+  box-shadow: -3px 1px 57px 39px rgba(89,84,84,0.19);
+-webkit-box-shadow: -3px 1px 57px 39px rgba(89,84,84,0.19);
+-moz-box-shadow: -3px 1px 57px 39px rgba(89,84,84,0.19);
+padding: 19px;
+border-radius: 20px;
+}
+.txt-conatiner{
+  border: 1px solid rgb(201, 181, 181);
+  border-radius: 9px;
+}
+
       </style>
       
 
@@ -67,16 +138,66 @@
 
   <div class="train my-2">
     <label for="">Re-train</label>
-    <p>if the model does not know any entity that was an entity, Describe here and click train</p>
-    <textarea translate="yes" name="" rows="4" cols="5" id="train_data" class="form-control my-2" placeholder="use comma for multiple patterms"></textarea>
-    <button class="btn btn-outline-success" onclick="Train()">Train It</button>
+    <p>If the model does not know any entity inside your test You can train it, While Processing. Enter The entities and Click identify.</p>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="entityData">Entity Name</label>  
+        <input translate="yes" name=""  id="entityData" class="form-control my-2" placeholder="Enter Entity Name Exactly Matching"/>
+        <label for="category">Entity Type</label>
+        <select name="" id="catetgory" class="form-control category mb-2">
+          <option value="PERSON">PERSON: People, fictional or real</option>
+          <option value="NORP">NORP: Nationalities or groups</option>
+          <option value="FAC">FAC: Buildings, structures</option>
+          <option value="ORG">ORG: Companies, institutions</option>
+          <option value="GPE">GPE: Countries, cities, states</option>
+          <option value="LOC">LOC: Locations, landmarks</option>
+          <option value="PRODUCT">PRODUCT: Objects, vehicles, etc.</option>
+          <option value="EVENT">EVENT: Named events</option>
+          <option value="WORK_OF_ART">WORK_OF_ART: Titles of works</option>
+          <option value="LAW">LAW: Legal documents</option>
+          <option value="LANGUAGE">LANGUAGE: Named languages</option>
+          <option value="DATE">DATE: Dates or periods</option>
+          <option value="TIME">TIME: Times smaller than a day</option>
+          <option value="PERCENT">PERCENT: Percentage values</option>
+          <option value="MONEY">MONEY: Monetary amounts</option>
+          <option value="QUANTITY">QUANTITY: Measurements, amounts</option>
+          <option value="ORDINAL">ORDINAL: Positions, like "first"</option>
+          <option value="CARDINAL">CARDINAL: Numerals</option>
+          
+          
+          
+        </select>
+    <button class="btn btn-outline-success" onclick="add()">Add into Entity Selection</button>
+      </div>
+      <div class="col-md-6">
+        <textarea translate="yes" name="" rows="8" cols="5" readonly id="train_data" class="form-control my-2" placeholder="Entity Data Will Appear Here"></textarea>
+      </div>
+    </div>
   </div>
-  <label for="">Provide The Tax Processing</label>
+  <div class="list my-3">
+    <label for="">Named Entity Highlighters - Every Entity Will Be Assigned Corresponding Color. </label><br><br>
+    <span class="person p-2" style="border-radius: 6px;">PERSON</span>
+    <span class="org p-2" style="border-radius: 6px;">Organizations</span>
+    <span class="language p-2" style="border-radius: 6px;">Language</span>
+    <span class="law p-2" style="border-radius: 6px;">Law</span>
+    <span class="work_of_art p-2" style="border-radius: 6px;">Work of art</span>
+    <span class="product p-2" style="border-radius: 6px;">Product</span>
+    <span class="event p-2" style="border-radius: 6px;">Event</span>
+    <span class="loc p-2 text-light" style="border-radius: 6px;">Locations</span>
+    <span class="money p-2" style="border-radius: 6px;">Money</span>
+    <span class="date p-2" style="border-radius: 6px;">Date</span>
+    <span class="gpe p-2" style="border-radius: 6px;">Geopolitical</span>
+  </div>
+  <label for="">Provide The Text To Identify</label>
   <textarea translate="yes" name="" rows="8" cols="10" id="spam" class="form-control my-2" placeholder="text"></textarea>
-  <button class="btn btn-outline-success" onclick="Identify()">Identify Entities 🤯</button>
+  <button class="btn btn-outline-success Identify" onclick="Identify()">Identify Entities 🤯</button>
 
-  <div class="my-2"></div>
-    <p class=" text"></p>
+  <div class="my-2 txt-conatiner p-3">
+    <label for="">IDNENTIFIED ENTITIES WILL APPEAR HERE 👀</label>
+    <HR></HR>
+    <p class="my-2 text"></p>
+  </div>
+
   </div>
 </div>
 
@@ -85,10 +206,30 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <script src="jquery-3.3.1.min.js"></script>
 <script>
+  var train_data =$("#train_data");
+ 
+  var data =[]
+  function add() {
+    var d = $("#entityData").val()
+    var category = $("#catetgory").val()  
+
+    var jsonData ={
+      "name": d,
+      "category": category
+    }
+    filterArray = Array.from(data).filter(value => value.name ==jsonData.name)
+    if(filterArray.length > 0)
+       {
+        alert("This Entity has already been added")
+        return
+       }
+    data.push(jsonData);
+    console.log(data)
+    train_data.val(JSON.stringify(data));
+  }
   function escapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
-
 function Identify() {
     var text = $("#spam").val();
     if (text == "") {
@@ -97,22 +238,31 @@ function Identify() {
     }
 
     $.ajax({
-        url:  "https://5652-34-16-145-180.ngrok-free.app", 
+        url:  "https://c117-34-74-38-253.ngrok-free.app" , 
         method: "POST",
         dataType: "json",
         contentType: "application/json",
-        data: JSON.stringify({ text: text }),
+        data: JSON.stringify({ text: text, train_data : data }),
+        beforeSend:()=>{
+          $(".text").empty();
+          $(".Identify").text("Identifying..........");
+          $(".Identify").attr("disabled", true);
+
+        },
         success: function (response) {
+          $(".Identify").attr("disabled", false);
+          $(".Identify").text("Identify Entities 🤯");
             let originalText = response.original;
             let entities = response.ents;
             for (let entity in entities) {
                 let entityType = entities[entity];  
                 let escapedEntity = escapeRegExp(entity);
-                let highlightSpan = `<span class="highlight ${entityType.toLowerCase()}">${entity}</span>`;
+                let highlightSpan = `<span class="highlighted-entity ${entityType.toLowerCase()}">${entity}</span>`;
                 originalText = originalText.replace(new RegExp(escapedEntity, 'g'), highlightSpan);
             }
             $(".text").html(originalText);
-        }
+        },
+        error:(r)=>     { $(".Identify").text("Identify Entities 🤯")   ; $(".Identify").attr("disabled", false);}
     });
 }
 function Train() {
